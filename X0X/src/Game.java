@@ -39,8 +39,8 @@ public class Game {
         bord.print();
 
         while(!win){
-            int getal1 = 0;
-            int getal2 = 0;
+            int getal1 ;
+            int getal2 ;
             if(turn == 1){
                 System.out.println(player1.getName() +":");
                 boolean notLetter = false;
@@ -49,22 +49,26 @@ public class Game {
                         Scanner cin = new Scanner(System.in);
                         getal1 = (cin.nextInt() - 1);
                         getal2 = (cin.nextInt() - 1);
-
+                        if(!bord.bord[getal2][getal1].equals(" ")){
+                            System.out.println("Something is there already");
+                            bord.print();
+                        }
+                        else{
+                            bord.setOnBord(player1.getPlaceHolder(), getal2, getal1);
+                            bord.print();
+                            win = bord.winCondition(player1.getPlaceHolder());
+                            turn = 2;
+                        }
                         notLetter = true;
-                    } catch (InputMismatchException e) {
+                    }
+                    catch (InputMismatchException e) {
                         System.out.println("Fill in a NUMBER!");
                         bord.print();
                     }
-                }
-                if(!bord.bord[getal2][getal1].equals(" ")){
-                    System.out.println("Something is there already");
-                    bord.print();
-                }
-                else{
-                    bord.setOnBord(player1.getPlaceHolder(), getal2, getal1);
-                    bord.print();
-                    win = bord.winCondition(player1.getPlaceHolder());
-                    turn = 2;
+                    catch (ArrayIndexOutOfBoundsException e){
+                        System.out.println("From 1 to 3 PLEASE!!");
+                        bord.print();
+                    }
                 }
 
             }
@@ -76,42 +80,32 @@ public class Game {
                         Scanner cin = new Scanner(System.in);
                         getal1 = (cin.nextInt() - 1);
                         getal2 = (cin.nextInt() - 1);
+                        if(!bord.bord[getal2][getal1].equals(" ")){
+                            System.out.println("Something is there already");
+                        }
+
+                        else{
+                            bord.setOnBord(player2.getPlaceHolder(), getal2, getal1);
+                            bord.print();
+                            win = bord.winCondition(player2.getPlaceHolder());
+                            turn = 1;
+                        }
                         notLetter = true;
-                    } catch (InputMismatchException e) {
+                    }
+                    catch (InputMismatchException e) {
                         System.out.println("Fill in a NUMBER!");
                         bord.print();
                     }
+                    catch (ArrayIndexOutOfBoundsException e){
+                        System.out.println("From 1 to 3 PLEASE!!!");
+                        bord.print();
+                    }
                 }
-                if(ifNot123(getal1,getal2)){
-                    System.out.println("Pick BETWEEN 1 - 3!!!!!!!!");
-                }
-                else if(!bord.bord[getal2][getal1].equals(" ")){
-                    System.out.println("Something is there already");
-                }
-
-                else{
-                    bord.setOnBord(player2.getPlaceHolder(), getal2, getal1);
-                    bord.print();
-                    win = bord.winCondition(player2.getPlaceHolder());
-                    turn = 1;
-                }
-
             }
             else{
                 System.out.println("ERROR?????");
             }
 
-        }
-    }
-    private boolean ifNot123(int getal1, int getal2){
-        if(getal1 != 1 || getal1 != 2 || getal1 != 3){
-            return false;
-        }
-        if(getal2 != 1 || getal2 != 2 || getal2 != 3){
-            return false;
-        }
-        else{
-            return true;
         }
     }
 }
